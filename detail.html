@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Absenzen-Tool: Details, Entschuldigung und Verlauf einer Absenz">
+  <title>Absenz-Details – Absenzen-Tool</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__logo" aria-hidden="true">A</span>
+        <span>Absenzen-Tool</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <ul class="main-nav__list">
+          <li><a class="main-nav__link" href="index.html">Übersicht</a></li>
+          <li><a class="main-nav__link" href="erfassen.html">Absenz erfassen</a></li>
+        </ul>
+      </nav>
+
+      <div class="role-switch">
+        <label for="role-select">Rolle</label>
+        <select id="role-select" name="role">
+          <option value="dozierende">Dozierende</option>
+          <option value="studierende">Studierende</option>
+          <option value="schulleitung">Schulleitung</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="inhalt" class="container">
+    <p><a class="back-link" href="index.html">← Zurück zur Übersicht</a></p>
+    <h1>Absenz-Details</h1>
+
+    <p id="action-message" class="alert alert--success" role="status" hidden>Der Status wurde geändert.</p>
+
+    <div class="detail-layout">
+      <!-- Stammdaten der Absenz (Werte per JS mit textContent setzen) -->
+      <section class="card" aria-labelledby="data-title">
+        <div class="section-head">
+          <h2 id="data-title">Angaben</h2>
+          <span id="detail-status" class="badge badge--eingereicht">Entschuldigung eingereicht</span>
+        </div>
+        <dl class="data-list">
+          <div class="data-list__item">
+            <dt>Studierende/r</dt>
+            <dd id="detail-student">Jonas Beispiel</dd>
+          </div>
+          <div class="data-list__item">
+            <dt>Fach</dt>
+            <dd id="detail-subject">DTR II</dd>
+          </div>
+          <div class="data-list__item">
+            <dt>Datum</dt>
+            <dd id="detail-date">27.10.2026</dd>
+          </div>
+          <div class="data-list__item">
+            <dt>Lektionen</dt>
+            <dd id="detail-lessons">4</dd>
+          </div>
+          <div class="data-list__item data-list__item--full">
+            <dt>Entschuldigung</dt>
+            <dd id="detail-excuse">Arzttermin, Zeugnis wird nachgereicht.</dd>
+          </div>
+        </dl>
+
+        <!-- Aktionen: per JS je nach Rolle und Status ein-/ausblenden bzw. deaktivieren -->
+        <div class="actions" role="group" aria-label="Aktionen">
+          <button type="button" id="btn-accept" class="btn btn--success">Entschuldigung akzeptieren</button>
+          <button type="button" id="btn-reject" class="btn btn--danger">Ablehnen</button>
+          <button type="button" id="btn-delete" class="btn btn--secondary">Absenz löschen</button>
+        </div>
+      </section>
+
+      <!-- Entschuldigung einreichen (nur Rolle Studierende, Status unentschuldigt) -->
+      <section class="card" aria-labelledby="excuse-title">
+        <h2 id="excuse-title">Entschuldigung einreichen</h2>
+        <form id="excuse-form" class="form" novalidate>
+          <div class="form-field">
+            <label for="excuse-text">Begründung <span class="required" aria-hidden="true">*</span></label>
+            <textarea id="excuse-text" name="excuse" rows="4" minlength="10" maxlength="500" required aria-describedby="excuse-error"></textarea>
+            <p id="excuse-error" class="field-error" hidden>Bitte mindestens 10 Zeichen eingeben.</p>
+          </div>
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">Entschuldigung senden</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- Verlauf: jede Statusänderung mit Zeitpunkt und Rolle -->
+    <section class="card" aria-labelledby="history-title">
+      <h2 id="history-title">Verlauf</h2>
+      <ol id="history-list" class="timeline">
+        <!-- BEISPIELEINTRÄGE: später per JS aus dem Verlauf der Absenz erzeugen -->
+        <li class="timeline__item">
+          <time class="timeline__time" datetime="2026-10-27T10:15">27.10.2026, 10:15</time>
+          <p class="timeline__text"><strong>Unentschuldigt</strong> erfasst von <em>Dozierende</em></p>
+        </li>
+        <li class="timeline__item">
+          <time class="timeline__time" datetime="2026-10-28T18:42">28.10.2026, 18:42</time>
+          <p class="timeline__text"><strong>Entschuldigung eingereicht</strong> von <em>Studierende</em></p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Absenzen-Tool · Projekt WEB I · Gruppe [Name]</p>
+  </footer>
+</body>
+</html>

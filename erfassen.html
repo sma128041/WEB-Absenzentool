@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Absenzen-Tool: neue Absenz erfassen oder im Voraus melden">
+  <title>Absenz erfassen – Absenzen-Tool</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__logo" aria-hidden="true">A</span>
+        <span>Absenzen-Tool</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <ul class="main-nav__list">
+          <li><a class="main-nav__link" href="index.html">Übersicht</a></li>
+          <li><a class="main-nav__link" href="erfassen.html" aria-current="page">Absenz erfassen</a></li>
+        </ul>
+      </nav>
+
+      <div class="role-switch">
+        <label for="role-select">Rolle</label>
+        <select id="role-select" name="role">
+          <option value="dozierende">Dozierende</option>
+          <option value="studierende">Studierende</option>
+          <option value="schulleitung">Schulleitung</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="inhalt" class="container container--narrow">
+    <h1>Absenz erfassen</h1>
+    <p class="lead">Dozierende erfassen eine unentschuldigte Absenz. Studierende melden eine Absenz im Voraus.</p>
+
+    <!-- Rückmeldung nach dem Speichern (per JS einblenden) -->
+    <p id="form-success" class="alert alert--success" role="status" hidden>Die Absenz wurde gespeichert.</p>
+    <p id="form-error" class="alert alert--error" role="alert" hidden>Bitte korrigiere die markierten Felder.</p>
+
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Angaben zur Absenz</h2>
+
+      <form id="absence-form" class="form" novalidate>
+        <fieldset class="form__group">
+          <legend>Art der Absenz</legend>
+          <div class="radio-group">
+            <div class="radio">
+              <input id="type-reported" type="radio" name="type" value="gemeldet" checked>
+              <label for="type-reported">Im Voraus gemeldet (Studierende)</label>
+            </div>
+            <div class="radio">
+              <input id="type-unexcused" type="radio" name="type" value="unentschuldigt">
+              <label for="type-unexcused">Unentschuldigt erfasst (Dozierende)</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form__row">
+          <div class="form-field">
+            <label for="student">Studierende/r <span class="required" aria-hidden="true">*</span></label>
+            <select id="student" name="studentId" required aria-describedby="student-error">
+              <option value="">Bitte wählen</option>
+              <option value="s1">Lea Muster</option>
+              <option value="s2">Jonas Beispiel</option>
+              <option value="s3">Mia Test</option>
+              <option value="s4">Noah Demo</option>
+            </select>
+            <p id="student-error" class="field-error" hidden>Bitte eine Person auswählen.</p>
+          </div>
+
+          <div class="form-field">
+            <label for="subject">Fach <span class="required" aria-hidden="true">*</span></label>
+            <select id="subject" name="subjectId" required aria-describedby="subject-error">
+              <option value="">Bitte wählen</option>
+              <option value="web1">WEB I</option>
+              <option value="dtr2">DTR II</option>
+              <option value="mathe">Mathematik</option>
+              <option value="englisch">Englisch</option>
+            </select>
+            <p id="subject-error" class="field-error" hidden>Bitte ein Fach auswählen.</p>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form-field">
+            <label for="date">Datum <span class="required" aria-hidden="true">*</span></label>
+            <input id="date" name="date" type="date" required aria-describedby="date-error">
+            <p id="date-error" class="field-error" hidden>Bitte ein gültiges Datum eingeben.</p>
+          </div>
+
+          <div class="form-field">
+            <label for="lessons">Anzahl Lektionen <span class="required" aria-hidden="true">*</span></label>
+            <input id="lessons" name="lessons" type="number" min="1" max="10" step="1" required aria-describedby="lessons-hint lessons-error">
+            <p id="lessons-hint" class="field-hint">Zwischen 1 und 10 Lektionen.</p>
+            <p id="lessons-error" class="field-error" hidden>Die Anzahl muss zwischen 1 und 10 liegen.</p>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="reason">Grund / Bemerkung</label>
+          <textarea id="reason" name="reason" rows="4" maxlength="500" aria-describedby="reason-hint"></textarea>
+          <p id="reason-hint" class="field-hint">Optional, höchstens 500 Zeichen.</p>
+        </div>
+
+        <div class="form__actions">
+          <button type="submit" class="btn btn--primary">Absenz speichern</button>
+          <a class="btn btn--secondary" href="index.html">Abbrechen</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Absenzen-Tool · Projekt WEB I · Gruppe [Name]</p>
+  </footer>
+</body>
+</html>

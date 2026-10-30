@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Absenzen-Tool: zentrale Übersicht über alle Absenzen pro Fach und Studierende">
+  <title>Übersicht – Absenzen-Tool</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <!-- Kopfzeile: gleich auf allen Seiten -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__logo" aria-hidden="true">A</span>
+        <span>Absenzen-Tool</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <ul class="main-nav__list">
+          <li><a class="main-nav__link" href="index.html" aria-current="page">Übersicht</a></li>
+          <li><a class="main-nav__link" href="erfassen.html">Absenz erfassen</a></li>
+        </ul>
+      </nav>
+
+      <!-- Rollenwechsel (simuliert, ohne Login) – wird später per JS ausgewertet -->
+      <div class="role-switch">
+        <label for="role-select">Rolle</label>
+        <select id="role-select" name="role">
+          <option value="dozierende">Dozierende</option>
+          <option value="studierende">Studierende</option>
+          <option value="schulleitung">Schulleitung</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="inhalt" class="container">
+    <h1>Absenzen-Übersicht</h1>
+
+    <!-- Rückmeldungen (Laden, Fehler, Erfolg). Per JS "hidden" entfernen. -->
+    <p id="status-message" class="alert alert--info" role="status" hidden>Daten werden geladen …</p>
+    <p id="error-message" class="alert alert--error" role="alert" hidden>Die Absenzen konnten nicht geladen werden. Bitte Seite neu laden.</p>
+
+    <!-- Warnung Absenzengrenze (Nice-to-have) -->
+    <p id="limit-warning" class="alert alert--warning" role="alert" hidden>
+      <strong>Achtung:</strong> Mindestens eine Person hat die Absenzengrenze in einem Fach erreicht.
+    </p>
+
+    <!-- Fachliche Auswertung: Werte werden per JS berechnet -->
+    <section class="stats" aria-labelledby="stats-title">
+      <h2 id="stats-title" class="visually-hidden">Kennzahlen</h2>
+      <article class="card stat">
+        <h3 class="stat__label">Offene Entschuldigungen</h3>
+        <p class="stat__value" id="stat-open">0</p>
+      </article>
+      <article class="card stat">
+        <h3 class="stat__label">Unentschuldigt</h3>
+        <p class="stat__value stat__value--danger" id="stat-unexcused">0</p>
+      </article>
+      <article class="card stat">
+        <h3 class="stat__label">Lektionen total</h3>
+        <p class="stat__value" id="stat-lessons">0</p>
+      </article>
+    </section>
+
+    <!-- Filter und Sortierung -->
+    <section class="card" aria-labelledby="filter-title">
+      <h2 id="filter-title">Filtern und sortieren</h2>
+      <form id="filter-form" class="filter-form">
+        <div class="form-field">
+          <label for="filter-search">Studierende/r</label>
+          <input id="filter-search" name="search" type="search" placeholder="Name suchen">
+        </div>
+        <div class="form-field">
+          <label for="filter-subject">Fach</label>
+          <select id="filter-subject" name="subject">
+            <option value="">Alle Fächer</option>
+            <option value="web1">WEB I</option>
+            <option value="dtr2">DTR II</option>
+            <option value="mathe">Mathematik</option>
+            <option value="englisch">Englisch</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="filter-status">Status</label>
+          <select id="filter-status" name="status">
+            <option value="">Alle Status</option>
+            <option value="gemeldet">Gemeldet</option>
+            <option value="unentschuldigt">Unentschuldigt</option>
+            <option value="eingereicht">Entschuldigung eingereicht</option>
+            <option value="entschuldigt">Entschuldigt</option>
+            <option value="abgelehnt">Abgelehnt</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="sort-by">Sortieren nach</label>
+          <select id="sort-by" name="sort">
+            <option value="date-desc">Datum (neueste zuerst)</option>
+            <option value="date-asc">Datum (älteste zuerst)</option>
+            <option value="name-asc">Name (A–Z)</option>
+            <option value="lessons-desc">Lektionen (meiste zuerst)</option>
+          </select>
+        </div>
+        <div class="filter-form__actions">
+          <button type="reset" class="btn btn--secondary">Filter zurücksetzen</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Liste der Absenzen -->
+    <section class="card" aria-labelledby="list-title">
+      <div class="section-head">
+        <h2 id="list-title">Alle Absenzen</h2>
+        <a class="btn btn--primary" href="erfassen.html">+ Absenz erfassen</a>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <caption class="visually-hidden">Liste aller Absenzen mit Datum, Person, Fach, Lektionen und Status</caption>
+          <thead>
+            <tr>
+              <th scope="col">Datum</th>
+              <th scope="col">Studierende/r</th>
+              <th scope="col">Fach</th>
+              <th scope="col">Lektionen</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span class="visually-hidden">Aktion</span></th>
+            </tr>
+          </thead>
+          <tbody id="absence-list">
+            <!-- BEISPIELZEILEN nur für das Design. Später leeren und per JS aus den Daten befüllen
+                 (sonst zählt es laut Raster als "Attrappe"). -->
+            <tr>
+              <td>28.10.2026</td>
+              <td>Lea Muster</td>
+              <td>WEB I</td>
+              <td>2</td>
+              <td><span class="badge badge--unentschuldigt">Unentschuldigt</span></td>
+              <td><a class="btn btn--small" href="detail.html?id=1">Details</a></td>
+            </tr>
+            <tr>
+              <td>27.10.2026</td>
+              <td>Jonas Beispiel</td>
+              <td>DTR II</td>
+              <td>4</td>
+              <td><span class="badge badge--eingereicht">Entschuldigung eingereicht</span></td>
+              <td><a class="btn btn--small" href="detail.html?id=2">Details</a></td>
+            </tr>
+            <tr>
+              <td>02.11.2026</td>
+              <td>Mia Test</td>
+              <td>Mathematik</td>
+              <td>2</td>
+              <td><span class="badge badge--gemeldet">Gemeldet</span></td>
+              <td><a class="btn btn--small" href="detail.html?id=3">Details</a></td>
+            </tr>
+            <tr>
+              <td>20.10.2026</td>
+              <td>Noah Demo</td>
+              <td>Englisch</td>
+              <td>1</td>
+              <td><span class="badge badge--entschuldigt">Entschuldigt</span></td>
+              <td><a class="btn btn--small" href="detail.html?id=4">Details</a></td>
+            </tr>
+            <tr>
+              <td>15.10.2026</td>
+              <td>Lea Muster</td>
+              <td>WEB I</td>
+              <td>2</td>
+              <td><span class="badge badge--abgelehnt">Abgelehnt</span></td>
+              <td><a class="btn btn--small" href="detail.html?id=5">Details</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Leerzustand: per JS anzeigen, wenn keine Absenzen vorhanden sind oder der Filter nichts findet -->
+      <div id="empty-state" class="empty-state" hidden>
+        <p class="empty-state__title">Noch keine Absenzen erfasst.</p>
+        <p>Über <a href="erfassen.html">«Absenz erfassen»</a> kannst du die erste Absenz eintragen.</p>
+      </div>
+    </section>
+
+    <!-- Vorlage für eine Tabellenzeile: per JS klonen (template.content.cloneNode) und mit textContent füllen -->
+    <template id="absence-row-template">
+      <tr>
+        <td data-field="date"></td>
+        <td data-field="student"></td>
+        <td data-field="subject"></td>
+        <td data-field="lessons"></td>
+        <td><span class="badge" data-field="status"></span></td>
+        <td><a class="btn btn--small" data-field="link" href="detail.html">Details</a></td>
+      </tr>
+    </template>
+  </main>
+
+  <footer class="site-footer">
+    <p>Absenzen-Tool · Projekt WEB I · Gruppe [Name]</p>
+  </footer>
+</body>
+</html>
