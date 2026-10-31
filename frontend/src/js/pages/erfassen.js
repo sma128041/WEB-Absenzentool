@@ -40,8 +40,7 @@ formular.addEventListener('submit', async (event) => {
   try {
     const { ok, daten } = await sendeDaten('/api/absenzen', leseFormular());
     if (ok) {
-      erfolgMeldung.hidden = false;
-      formular.reset();
+        window.location.href = '/?gespeichert=1';
     } else {
       fehlerMeldung.textContent = daten.fehler;
       fehlerMeldung.hidden = false;

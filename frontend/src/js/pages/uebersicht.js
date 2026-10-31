@@ -1,6 +1,11 @@
-// pages/uebersicht.js – entscheidet, was geladen wird
 import { ladeDaten } from '../api.js';
 import { fuelleDropdown } from '../darstellung.js';
+
+// Erfolgsmeldung zeigen, wenn wir von "Absenz erfassen" kommen
+const parameter = new URLSearchParams(window.location.search);
+if (parameter.get('gespeichert') === '1') {
+  document.querySelector('#saved-message').hidden = false;
+}
 
 const faecher = await ladeDaten('/api/faecher');
 fuelleDropdown(document.querySelector('#filter-subject'), faecher, 'fach');
