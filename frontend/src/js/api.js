@@ -2,9 +2,13 @@
  * Lädt Daten mit GET vom Backend.
  * @param {string} url - z. B. '/api/faecher'
  * @returns {Promise<any>} die Antwort als JavaScript-Wert
+ * @throws {Error} wenn das Backend nicht erreichbar ist oder einen Fehler meldet
  */
 export async function ladeDaten(url) {
   const antwort = await fetch(url);
+  if (!antwort.ok) {
+    throw new Error(`Laden von ${url} fehlgeschlagen (Status ${antwort.status})`);
+  }
   return antwort.json();
 }
 

@@ -3,9 +3,16 @@ import db from "../db.js";
 
 const router = Router();
 
-// GET /api/absenzen – alle absenzen
+// GET /api/absenzen – alle Absenzen mit Name und Fach, neueste zuerst
 router.get('/', (req, res) => {
-  const absenzen = db.prepare('SELECT absenzen.*, benutzer.vorname, benutzer.nachname FROM absenzen join benutzer on absenzen.student_id = benutzer.id').all();
+  const absenzen = db.prepare(`
+    SELECT absenzen.*, benutzer.vorname, benutzer.nachname, faecher.fach
+    FROM absenzen
+    JOIN benutzer   ON absenzen.student_id    = benutzer.id
+    JOIN unterricht ON absenzen.unterricht_id = unterricht.id
+    JOIN faecher    ON unterricht.fach_id     = faecher.id
+    ORDER BY absenzen.datum DESC
+  `).all();
   res.json(absenzen);
 });
 
