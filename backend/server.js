@@ -1,10 +1,11 @@
 import express from 'express';
-import db from './db.js';
+import faecherRouter from './routes/faecher.js';
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use('/api/faecher', faecherRouter);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
