@@ -97,4 +97,33 @@ if (anzahl === 0) {
   `);
 }
 
+//Testdaten Klassen
+const anzahlKlassen = db.prepare('SELECT COUNT(*) AS count FROM klassen').get().count;
+if (anzahlKlassen === 0) {
+  db.exec(`
+    INSERT INTO klassen (klasse) VALUES
+      ('25A'),
+      ('25B'),
+      ('25C')
+      `)
+};
+
+// Testdaten Studierenden Benutzer
+const anzahlStudierende = db.prepare(`SELECT COUNT(*) AS count FROM benutzer where rolle = 'studierende'`).get().count;
+if (anzahlStudierende === 0) {
+  db.exec(`
+    INSERT INTO benutzer (vorname, nachname, email, passwort_hash, rolle, klasse_id) VALUES
+      ('Sabri', 'Mahdi', 'sabri.mahdi@example.com', 'sml12345', 'studierende', 1)
+  `);
+}
+
+// Testdaten Dozierende Benutzer
+const anzahlDozierende = db.prepare(`SELECT COUNT(*) AS count FROM benutzer where rolle = 'dozierende'`).get().count;
+if (anzahlDozierende === 0) {
+  db.exec(`
+    INSERT INTO benutzer (vorname, nachname, email, passwort_hash, rolle) VALUES
+      ('Nicolas', 'Dumermuth', 'nicolas.dumermuth@example.com', 'sml12345', 'dozierende')
+  `);
+}
+
 export default db;
