@@ -1,2 +1,7 @@
-// Einstiegspunkt der Seite – hier kommt euer JavaScript hin.
-// Beispiel: import { ladeAbsenzen } from "../api.js";
+// pages/uebersicht.js – entscheidet, was geladen wird
+import { ladeDaten } from '../api.js';
+import { fuelleDropdown } from '../darstellung.js';
+
+const faecher = await ladeDaten('/api/faecher');
+
+fuelleDropdown(document.querySelector('#filter-subject'), faecher, 'fach');
