@@ -4,7 +4,7 @@
  * @param {Array} eintraege - die Daten vom Backend
  * @param {string} textFeld - welches Feld als Text angezeigt wird
  */
-function fuelleDropdown(dropdown, eintraege, textFeld) {
+export function fuelleDropdown(dropdown, eintraege, textFeld) {
   for (const eintrag of eintraege) {
     const option = document.createElement('option');
     option.value = eintrag.id;
