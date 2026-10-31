@@ -126,4 +126,14 @@ if (anzahlDozierende === 0) {
   `);
 }
 
+// Testdaten Unterricht
+const anzahlUnterricht = db.prepare('SELECT COUNT(*) AS count FROM unterricht').get().count;
+if (anzahlUnterricht === 0) {
+  db.exec(`
+    INSERT INTO unterricht (fach_id, dozierende_id, klasse_id) VALUES
+      (1, 2, 1),
+      (2, 2, 1),
+      (3, 2, 1)
+  `);
+}
 export default db;
