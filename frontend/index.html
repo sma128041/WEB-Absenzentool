@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Absenzen-Tool: zentrale Übersicht über alle Absenzen pro Fach und Studierende">
   <title>Übersicht – Absenzen-Tool</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/src/css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -13,15 +13,15 @@
   <!-- Kopfzeile: gleich auf allen Seiten -->
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand" href="index.html">
+      <a class="brand" href="/">
         <span class="brand__logo" aria-hidden="true">A</span>
         <span>Absenzen-Tool</span>
       </a>
 
       <nav class="main-nav" aria-label="Hauptnavigation">
         <ul class="main-nav__list">
-          <li><a class="main-nav__link" href="index.html" aria-current="page">Übersicht</a></li>
-          <li><a class="main-nav__link" href="erfassen.html">Absenz erfassen</a></li>
+          <li><a class="main-nav__link" href="/" aria-current="page">Übersicht</a></li>
+          <li><a class="main-nav__link" href="/erfassen.html">Absenz erfassen</a></li>
         </ul>
       </nav>
 
@@ -41,7 +41,7 @@
     <h1>Absenzen-Übersicht</h1>
 
     <!-- Rückmeldungen (Laden, Fehler, Erfolg). Per JS "hidden" entfernen. -->
-    <p id="status-message" class="alert alert--info" role="status" hidden>Daten werden geladen …</p>
+    <p id="status-message" class="alert alert--info" role="status">Daten werden geladen …</p>
     <p id="error-message" class="alert alert--error" role="alert" hidden>Die Absenzen konnten nicht geladen werden. Bitte Seite neu laden.</p>
 
     <!-- Warnung Absenzengrenze (Nice-to-have) -->
@@ -114,7 +114,7 @@
     <section class="card" aria-labelledby="list-title">
       <div class="section-head">
         <h2 id="list-title">Alle Absenzen</h2>
-        <a class="btn btn--primary" href="erfassen.html">+ Absenz erfassen</a>
+        <a class="btn btn--primary" href="/erfassen.html">+ Absenz erfassen</a>
       </div>
 
       <div class="table-wrap">
@@ -131,48 +131,6 @@
             </tr>
           </thead>
           <tbody id="absence-list">
-            <!-- BEISPIELZEILEN nur für das Design. Später leeren und per JS aus den Daten befüllen
-                 (sonst zählt es laut Raster als "Attrappe"). -->
-            <tr>
-              <td>28.10.2026</td>
-              <td>Lea Muster</td>
-              <td>WEB I</td>
-              <td>2</td>
-              <td><span class="badge badge--unentschuldigt">Unentschuldigt</span></td>
-              <td><a class="btn btn--small" href="detail.html?id=1">Details</a></td>
-            </tr>
-            <tr>
-              <td>27.10.2026</td>
-              <td>Jonas Beispiel</td>
-              <td>DTR II</td>
-              <td>4</td>
-              <td><span class="badge badge--eingereicht">Entschuldigung eingereicht</span></td>
-              <td><a class="btn btn--small" href="detail.html?id=2">Details</a></td>
-            </tr>
-            <tr>
-              <td>02.11.2026</td>
-              <td>Mia Test</td>
-              <td>Mathematik</td>
-              <td>2</td>
-              <td><span class="badge badge--gemeldet">Gemeldet</span></td>
-              <td><a class="btn btn--small" href="detail.html?id=3">Details</a></td>
-            </tr>
-            <tr>
-              <td>20.10.2026</td>
-              <td>Noah Demo</td>
-              <td>Englisch</td>
-              <td>1</td>
-              <td><span class="badge badge--entschuldigt">Entschuldigt</span></td>
-              <td><a class="btn btn--small" href="detail.html?id=4">Details</a></td>
-            </tr>
-            <tr>
-              <td>15.10.2026</td>
-              <td>Lea Muster</td>
-              <td>WEB I</td>
-              <td>2</td>
-              <td><span class="badge badge--abgelehnt">Abgelehnt</span></td>
-              <td><a class="btn btn--small" href="detail.html?id=5">Details</a></td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -180,7 +138,7 @@
       <!-- Leerzustand: per JS anzeigen, wenn keine Absenzen vorhanden sind oder der Filter nichts findet -->
       <div id="empty-state" class="empty-state" hidden>
         <p class="empty-state__title">Noch keine Absenzen erfasst.</p>
-        <p>Über <a href="erfassen.html">«Absenz erfassen»</a> kannst du die erste Absenz eintragen.</p>
+        <p>Über <a href="/erfassen.html">«Absenz erfassen»</a> kannst du die erste Absenz eintragen.</p>
       </div>
     </section>
 
@@ -192,7 +150,7 @@
         <td data-field="subject"></td>
         <td data-field="lessons"></td>
         <td><span class="badge" data-field="status"></span></td>
-        <td><a class="btn btn--small" data-field="link" href="detail.html">Details</a></td>
+        <td><a class="btn btn--small" data-field="link" href="/detail.html">Details</a></td>
       </tr>
     </template>
   </main>
@@ -200,6 +158,7 @@
   <footer class="site-footer">
     <p>Absenzen-Tool · Projekt WEB I · Gruppe [Name]</p>
   </footer>
-  <script src="app.js"></script>
+  <!-- Einstiegspunkt für JavaScript dieser Seite (ES-Modul, wird von Vite gebündelt) -->
+  <script type="module" src="/src/js/pages/uebersicht.js"></script>
 </body>
 </html>

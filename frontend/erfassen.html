@@ -5,22 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Absenzen-Tool: neue Absenz erfassen oder im Voraus melden">
   <title>Absenz erfassen – Absenzen-Tool</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/src/css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand" href="index.html">
+      <a class="brand" href="/">
         <span class="brand__logo" aria-hidden="true">A</span>
         <span>Absenzen-Tool</span>
       </a>
 
       <nav class="main-nav" aria-label="Hauptnavigation">
         <ul class="main-nav__list">
-          <li><a class="main-nav__link" href="index.html">Übersicht</a></li>
-          <li><a class="main-nav__link" href="erfassen.html" aria-current="page">Absenz erfassen</a></li>
+          <li><a class="main-nav__link" href="/">Übersicht</a></li>
+          <li><a class="main-nav__link" href="/erfassen.html" aria-current="page">Absenz erfassen</a></li>
         </ul>
       </nav>
 
@@ -109,8 +109,8 @@
         </div>
 
         <div class="form__actions">
-          <button id="absenz-speichern-knopf" type="submit" class="btn btn--primary">Absenz speichern</button>
-          <a class="btn btn--secondary" href="index.html">Abbrechen</a>
+          <button type="submit" class="btn btn--primary">Absenz speichern</button>
+          <a class="btn btn--secondary" href="/">Abbrechen</a>
         </div>
       </form>
     </section>
@@ -119,5 +119,7 @@
   <footer class="site-footer">
     <p>Absenzen-Tool · Projekt WEB I · Gruppe [Name]</p>
   </footer>
+  <!-- Einstiegspunkt für JavaScript dieser Seite (ES-Modul, wird von Vite gebündelt) -->
+  <script type="module" src="/src/js/pages/erfassen.js"></script>
 </body>
 </html>
