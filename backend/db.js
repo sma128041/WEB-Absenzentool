@@ -16,4 +16,15 @@ db.exec(`
   )
 `);
 
+const anzahl = db.prepare('SELECT COUNT(*) AS count FROM faecher').get().count;
+if (anzahl === 0) {
+  db.exec(`
+    INSERT INTO faecher (fach) VALUES
+      ('CYS'),
+      ('DTR'),
+      ('WEB'),
+      ('LDS')
+  `)
+}
+
 export default db;
