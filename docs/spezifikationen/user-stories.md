@@ -1,6 +1,6 @@
 # User Stories – Absenzen-Tool
 
-Grundlage: Use-Case-, Aktivitäts-, Zustands- und Sequenzdiagramm in `UML_Diagramme.pdf`.
+Grundlage: Use-Case-, Aktivitäts-, Zustands- und Sequenzdiagramm in `UML_Diagramme_Absenzen-Tool.pdf`.
 
 ## Rollen
 

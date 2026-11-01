@@ -16,3 +16,6 @@ npm-debug.log*
 
 # Editor-Einstellungen (optional)
 .vscode/
+
+# Datenbankdateien (werden mit npm run init-db neu erzeugt)
+backend/data/
